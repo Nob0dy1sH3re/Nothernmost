@@ -1,0 +1,2305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  />
+  <meta name="theme-color" content="#05090d" />
+  <meta name="description" content="Northernmost 极北 — Nob0dyH3re" />
+
+  <title>Northernmost 极北 — Nob0dyH3re</title>
+
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+  <link rel="preconnect" href="https://images.unsplash.com" />
+
+  <style>
+    :root {
+      color-scheme: dark;
+
+      --background: #05090d;
+      --surface: #0b1218;
+      --surface-glass: rgba(8, 15, 21, 0.82);
+      --surface-light: rgba(255, 255, 255, 0.06);
+
+      --text: #f4f7f6;
+      --muted: #a4b0b3;
+      --quiet: #68767a;
+
+      --aurora-green: #8ff2c4;
+      --aurora-cyan: #8ce5ed;
+      --aurora-violet: #b1a4eb;
+      --warning: #ffb5a7;
+
+      --border: rgba(255, 255, 255, 0.13);
+      --border-soft: rgba(255, 255, 255, 0.08);
+
+      --header-height: 68px;
+      --reader-toolbar-height: 62px;
+      --reader-footer-height: 38px;
+
+      --content-width: 1440px;
+      --reader-width: 1500px;
+
+      --radius-small: 6px;
+      --radius-medium: 8px;
+
+      --shadow:
+        0 40px 120px rgba(0, 0, 0, 0.5),
+        0 1px 0 rgba(255, 255, 255, 0.04);
+
+      --ease: cubic-bezier(0.22, 0.8, 0.25, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-width: 320px;
+      scroll-behavior: smooth;
+      background: var(--background);
+    }
+
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--text);
+      background: var(--background);
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        "Helvetica Neue",
+        Arial,
+        sans-serif;
+      letter-spacing: 0;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body.reader-locked {
+      overflow: hidden;
+    }
+
+    button,
+    input {
+      font: inherit;
+      letter-spacing: 0;
+    }
+
+    button {
+      color: inherit;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button:focus-visible,
+    input:focus-visible,
+    a:focus-visible {
+      outline: 2px solid var(--aurora-cyan);
+      outline-offset: 3px;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    .icon {
+      width: 18px;
+      height: 18px;
+      display: block;
+      pointer-events: none;
+    }
+
+    .site-header {
+      position: fixed;
+      z-index: 100;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: calc(var(--header-height) + env(safe-area-inset-top));
+      padding:
+        env(safe-area-inset-top)
+        max(24px, env(safe-area-inset-right))
+        0
+        max(24px, env(safe-area-inset-left));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      background: rgba(4, 9, 13, 0.58);
+      backdrop-filter: blur(24px) saturate(140%);
+      -webkit-backdrop-filter: blur(24px) saturate(140%);
+    }
+
+    .brand {
+      min-width: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      width: 28px;
+      height: 28px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(143, 242, 196, 0.5);
+      border-radius: 50%;
+      color: var(--aurora-green);
+      font-size: 11px;
+      font-weight: 650;
+      box-shadow: 0 0 22px rgba(143, 242, 196, 0.12);
+    }
+
+    .brand-name {
+      overflow: hidden;
+      font-size: 13px;
+      font-weight: 650;
+      text-overflow: ellipsis;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-button,
+    .command-button {
+      border: 1px solid transparent;
+      background: transparent;
+      cursor: pointer;
+      transition:
+        color 180ms ease,
+        border-color 180ms ease,
+        background 180ms ease,
+        transform 180ms var(--ease);
+    }
+
+    .icon-button {
+      width: 40px;
+      height: 40px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius-medium);
+      color: var(--muted);
+    }
+
+    .icon-button:hover:not(:disabled) {
+      color: var(--text);
+      border-color: var(--border);
+      background: var(--surface-light);
+    }
+
+    .icon-button:active:not(:disabled) {
+      transform: scale(0.94);
+    }
+
+    .icon-button:disabled {
+      cursor: default;
+      opacity: 0.28;
+    }
+
+    .command-button {
+      min-height: 42px;
+      padding: 0 17px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      border-color: rgba(143, 229, 237, 0.28);
+      border-radius: var(--radius-medium);
+      color: var(--aurora-cyan);
+      background: rgba(140, 229, 237, 0.07);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .command-button:hover {
+      border-color: rgba(143, 229, 237, 0.58);
+      background: rgba(140, 229, 237, 0.13);
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      position: relative;
+      height: calc(100svh - 28px);
+      min-height: 620px;
+      max-height: 980px;
+      padding:
+        calc(var(--header-height) + env(safe-area-inset-top) + 48px)
+        max(7vw, env(safe-area-inset-right))
+        62px
+        max(7vw, env(safe-area-inset-left));
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      isolation: isolate;
+      background:
+        linear-gradient(
+          90deg,
+          rgba(3, 8, 11, 0.9) 0%,
+          rgba(3, 8, 11, 0.64) 47%,
+          rgba(3, 8, 11, 0.22) 100%
+        ),
+        linear-gradient(
+          0deg,
+          var(--background) 0%,
+          transparent 32%,
+          rgba(3, 8, 11, 0.12) 100%
+        ),
+        url("https://images.unsplash.com/photo-1483347756197-71ef80e95f73?auto=format&fit=crop&w=2200&q=88")
+        center 38% / cover no-repeat;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      top: -24%;
+      right: -12%;
+      width: 88%;
+      height: 76%;
+      pointer-events: none;
+      opacity: 0.72;
+      filter: blur(32px);
+      background:
+        linear-gradient(
+          112deg,
+          transparent 6%,
+          rgba(143, 242, 196, 0.14) 18%,
+          rgba(143, 242, 196, 0.64) 30%,
+          rgba(140, 229, 237, 0.31) 43%,
+          rgba(177, 164, 235, 0.38) 56%,
+          transparent 72%
+        );
+      clip-path: polygon(
+        0 18%,
+        13% 30%,
+        25% 22%,
+        39% 42%,
+        53% 29%,
+        68% 52%,
+        83% 34%,
+        100% 47%,
+        100% 67%,
+        82% 54%,
+        67% 72%,
+        53% 51%,
+        39% 66%,
+        24% 44%,
+        12% 53%,
+        0 39%
+      );
+      animation: aurora 14s ease-in-out infinite alternate;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.34;
+      background-image:
+        radial-gradient(circle at 14% 21%, white 0 1px, transparent 1.5px),
+        radial-gradient(circle at 28% 13%, white 0 1px, transparent 1.5px),
+        radial-gradient(circle at 65% 16%, white 0 1px, transparent 1.5px),
+        radial-gradient(circle at 78% 31%, white 0 1px, transparent 1.5px),
+        radial-gradient(circle at 91% 11%, white 0 1px, transparent 1.5px);
+    }
+
+    @keyframes aurora {
+      from {
+        transform: translate3d(-3%, -2%, 0) rotate(-4deg) scale(1);
+      }
+
+      to {
+        transform: translate3d(4%, 5%, 0) rotate(-1deg) scale(1.08);
+      }
+    }
+
+    .hero-content {
+      width: 100%;
+      max-width: var(--content-width);
+      margin: 0 auto;
+    }
+
+    .hero-index {
+      margin-bottom: 22px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--aurora-cyan);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .hero-index::before {
+      content: "";
+      width: 42px;
+      height: 1px;
+      background: var(--aurora-cyan);
+    }
+
+    .hero-title {
+      max-width: 940px;
+      margin: 0;
+      color: #f6faf8;
+      font-size: 112px;
+      font-weight: 280;
+      line-height: 0.9;
+      text-wrap: balance;
+      text-shadow: 0 8px 48px rgba(0, 0, 0, 0.36);
+    }
+
+    .hero-title span {
+      display: block;
+      margin-top: 20px;
+      font-size: 34px;
+      font-weight: 350;
+      line-height: 1;
+    }
+
+    .author {
+      margin-top: 30px;
+      color: rgba(233, 242, 240, 0.72);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .hero-actions {
+      margin-top: 46px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .primary-action {
+      min-height: 50px;
+      padding: 0 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: 1px solid rgba(210, 255, 239, 0.56);
+      border-radius: var(--radius-medium);
+      color: #07120f;
+      background: linear-gradient(115deg, #ccfbe8, #9ee8ec);
+      box-shadow: 0 15px 40px rgba(104, 225, 205, 0.15);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      transition:
+        transform 200ms var(--ease),
+        box-shadow 200ms ease;
+    }
+
+    .primary-action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 46px rgba(104, 225, 205, 0.24);
+    }
+
+    .hero-coordinates {
+      position: absolute;
+      right: max(32px, 4vw);
+      bottom: 42px;
+      color: rgba(240, 248, 246, 0.56);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 11px;
+    }
+
+    .reader-section {
+      position: relative;
+      padding:
+        88px
+        max(24px, env(safe-area-inset-right))
+        110px
+        max(24px, env(safe-area-inset-left));
+      background:
+        radial-gradient(
+          circle at 50% 0%,
+          rgba(143, 242, 196, 0.08),
+          transparent 32rem
+        ),
+        linear-gradient(#05090d, #081016 46%, #05090d);
+    }
+
+    .reader-heading {
+      width: 100%;
+      max-width: var(--reader-width);
+      margin: 0 auto 28px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 28px;
+    }
+
+    .reader-heading p {
+      margin: 0;
+      color: var(--aurora-green);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .reader-heading h2 {
+      margin: 10px 0 0;
+      color: var(--text);
+      font-size: 52px;
+      font-weight: 300;
+      line-height: 1;
+    }
+
+    .reader-location {
+      color: var(--quiet);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 11px;
+      text-align: right;
+    }
+
+    .reader-shell {
+      position: relative;
+      width: 100%;
+      max-width: var(--reader-width);
+      height: min(820px, calc(100svh - 96px));
+      min-height: 620px;
+      margin: 0 auto;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-medium);
+      background: #070d12;
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .reader-shell:fullscreen {
+      width: 100%;
+      max-width: none;
+      height: 100%;
+      min-height: 0;
+      border: 0;
+      border-radius: 0;
+    }
+
+    .reader-shell::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(
+          120deg,
+          rgba(143, 242, 196, 0.045),
+          transparent 34%
+        ),
+        radial-gradient(
+          circle at 90% 0%,
+          rgba(177, 164, 235, 0.07),
+          transparent 24rem
+        );
+    }
+
+    .reader-toolbar {
+      position: relative;
+      z-index: 10;
+      height: var(--reader-toolbar-height);
+      padding: 0 14px;
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr);
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--border-soft);
+      background: var(--surface-glass);
+      backdrop-filter: blur(22px) saturate(140%);
+      -webkit-backdrop-filter: blur(22px) saturate(140%);
+    }
+
+    .toolbar-group {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .toolbar-group.center {
+      justify-content: center;
+    }
+
+    .toolbar-group.end {
+      justify-content: flex-end;
+    }
+
+    .toolbar-separator {
+      width: 1px;
+      height: 22px;
+      margin: 0 6px;
+      flex: 0 0 auto;
+      background: var(--border);
+    }
+
+    .page-control {
+      min-width: 96px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      color: var(--quiet);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 11px;
+    }
+
+    .page-input {
+      width: 44px;
+      height: 32px;
+      padding: 0 5px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-small);
+      outline: none;
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.055);
+      text-align: center;
+      appearance: textfield;
+    }
+
+    .page-input::-webkit-inner-spin-button,
+    .page-input::-webkit-outer-spin-button {
+      margin: 0;
+      appearance: none;
+    }
+
+    .zoom-label {
+      width: 52px;
+      color: var(--muted);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 10px;
+      text-align: center;
+    }
+
+    .document-name {
+      min-width: 0;
+      overflow: hidden;
+      color: var(--muted);
+      font-size: 11px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .reader-body {
+      position: relative;
+      height: calc(
+        100% -
+        var(--reader-toolbar-height) -
+        var(--reader-footer-height)
+      );
+      overflow: hidden;
+    }
+
+    .page-stage {
+      position: absolute;
+      inset: 0;
+      overflow: auto;
+      padding: 32px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      overscroll-behavior: contain;
+      touch-action: pan-x pan-y;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(143, 229, 237, 0.26) transparent;
+      background:
+        linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.012) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          rgba(255, 255, 255, 0.012) 1px,
+          transparent 1px
+        );
+      background-size: 56px 56px;
+    }
+
+    .page-stage::-webkit-scrollbar {
+      width: 9px;
+      height: 9px;
+    }
+
+    .page-stage::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .page-stage::-webkit-scrollbar-thumb {
+      border: 3px solid transparent;
+      border-radius: 10px;
+      background-clip: padding-box;
+      background-color: rgba(143, 229, 237, 0.26);
+    }
+
+    .canvas-wrap {
+      position: relative;
+      flex: 0 0 auto;
+      min-width: 1px;
+      min-height: 1px;
+      overflow: hidden;
+      border-radius: 2px;
+      background: #fff;
+      box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.08);
+    }
+
+    #pdfCanvas {
+      display: block;
+      max-width: none;
+      background: #fff;
+    }
+
+    .reader-layer {
+      position: absolute;
+      z-index: 8;
+      inset: 0;
+      padding: 28px;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(
+          circle at 50% 43%,
+          rgba(143, 242, 196, 0.08),
+          transparent 20rem
+        ),
+        rgba(6, 12, 17, 0.9);
+      backdrop-filter: blur(7px);
+      -webkit-backdrop-filter: blur(7px);
+    }
+
+    .reader-message {
+      width: min(100%, 390px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .loading-ring {
+      width: 46px;
+      height: 46px;
+      margin-bottom: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-top-color: var(--aurora-green);
+      border-right-color: var(--aurora-cyan);
+      border-radius: 50%;
+      animation: spin 900ms linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .reader-message h3 {
+      margin: 0;
+      color: var(--text);
+      font-size: 20px;
+      font-weight: 450;
+      line-height: 1.3;
+    }
+
+    .reader-message p {
+      margin: 10px 0 0;
+      color: var(--quiet);
+      font-size: 12px;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    .progress-track {
+      width: min(240px, 70vw);
+      height: 2px;
+      margin-top: 24px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .progress-value {
+      width: 0;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        var(--aurora-green),
+        var(--aurora-cyan),
+        var(--aurora-violet)
+      );
+      transition: width 180ms ease;
+    }
+
+    .error-symbol {
+      width: 52px;
+      height: 52px;
+      margin-bottom: 22px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 181, 167, 0.38);
+      border-radius: 50%;
+      color: var(--warning);
+      background: rgba(255, 181, 167, 0.06);
+    }
+
+    .error-actions {
+      margin-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .error-action {
+      min-height: 42px;
+      padding: 0 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-medium);
+      color: var(--text);
+      background: var(--surface-light);
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .error-action.primary {
+      border-color: rgba(143, 229, 237, 0.4);
+      color: #07120f;
+      background: var(--aurora-cyan);
+    }
+
+    .reader-footer {
+      height: var(--reader-footer-height);
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border-soft);
+      color: var(--quiet);
+      background: rgba(7, 13, 18, 0.92);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 9px;
+    }
+
+    .reader-status {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .reader-page-status {
+      flex: 0 0 auto;
+      margin-left: 14px;
+      color: var(--muted);
+    }
+
+    .site-footer {
+      min-height: 92px;
+      padding:
+        24px
+        max(7vw, env(safe-area-inset-right))
+        calc(24px + env(safe-area-inset-bottom))
+        max(7vw, env(safe-area-inset-left));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border-top: 1px solid var(--border-soft);
+      color: var(--quiet);
+      font-size: 11px;
+    }
+
+    .signal {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .signal-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--aurora-green);
+      box-shadow: 0 0 15px var(--aurora-green);
+      animation: signal 2.2s ease-in-out infinite;
+    }
+
+    @keyframes signal {
+      0%,
+      100% {
+        opacity: 0.42;
+        transform: scale(0.84);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.12);
+      }
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    @media (max-width: 980px) {
+      .hero {
+        background-position: 60% 40%;
+      }
+
+      .hero-title {
+        font-size: 84px;
+      }
+
+      .hero-title span {
+        font-size: 30px;
+      }
+
+      .reader-toolbar {
+        grid-template-columns: 1fr auto 1fr;
+      }
+
+      .document-name {
+        display: none;
+      }
+
+      .reader-heading h2 {
+        font-size: 44px;
+      }
+    }
+
+    @media (max-width: 700px) {
+      :root {
+        --header-height: 60px;
+        --reader-toolbar-height: 58px;
+        --reader-footer-height: 34px;
+      }
+
+      .site-header {
+        padding-right: max(14px, env(safe-area-inset-right));
+        padding-left: max(14px, env(safe-area-inset-left));
+      }
+
+      .brand-name {
+        font-size: 12px;
+      }
+
+      .header-actions .command-button {
+        width: 40px;
+        min-height: 40px;
+        padding: 0;
+      }
+
+      .header-actions .command-button span {
+        display: none;
+      }
+
+      .hero {
+        height: calc(100svh - 20px);
+        min-height: 560px;
+        padding:
+          calc(var(--header-height) + env(safe-area-inset-top) + 40px)
+          max(22px, env(safe-area-inset-right))
+          54px
+          max(22px, env(safe-area-inset-left));
+        align-items: flex-end;
+        background:
+          linear-gradient(
+            0deg,
+            rgba(3, 8, 11, 0.96) 0%,
+            rgba(3, 8, 11, 0.66) 48%,
+            rgba(3, 8, 11, 0.12) 100%
+          ),
+          url("https://images.unsplash.com/photo-1483347756197-71ef80e95f73?auto=format&fit=crop&w=1200&q=84")
+          61% center / cover no-repeat;
+      }
+
+      .hero::before {
+        top: -10%;
+        right: -45%;
+        width: 150%;
+        height: 60%;
+      }
+
+      .hero-index {
+        margin-bottom: 17px;
+        font-size: 10px;
+      }
+
+      .hero-index::before {
+        width: 28px;
+      }
+
+      .hero-title {
+        max-width: 100%;
+        font-size: 54px;
+        line-height: 0.92;
+        overflow-wrap: anywhere;
+      }
+
+      .hero-title span {
+        margin-top: 15px;
+        font-size: 25px;
+      }
+
+      .author {
+        margin-top: 22px;
+        font-size: 12px;
+      }
+
+      .hero-actions {
+        margin-top: 30px;
+      }
+
+      .primary-action {
+        width: 100%;
+        max-width: 260px;
+      }
+
+      .hero-coordinates {
+        display: none;
+      }
+
+      .reader-section {
+        padding:
+          64px
+          max(12px, env(safe-area-inset-right))
+          76px
+          max(12px, env(safe-area-inset-left));
+      }
+
+      .reader-heading {
+        margin-bottom: 21px;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .reader-heading h2 {
+        margin-top: 8px;
+        font-size: 34px;
+      }
+
+      .reader-location {
+        text-align: left;
+      }
+
+      .reader-shell {
+        height: calc(100svh - 30px);
+        min-height: 540px;
+      }
+
+      .reader-toolbar {
+        padding: 0 8px;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 4px;
+      }
+
+      .toolbar-group.center {
+        display: none;
+      }
+
+      .toolbar-group.end {
+        justify-content: flex-end;
+      }
+
+      .toolbar-separator {
+        margin: 0 2px;
+      }
+
+      .page-control {
+        min-width: 84px;
+        gap: 5px;
+      }
+
+      .page-input {
+        width: 40px;
+        height: 31px;
+      }
+
+      .icon-button {
+        width: 38px;
+        height: 38px;
+      }
+
+      .page-stage {
+        padding: 18px 10px 28px;
+      }
+
+      .reader-layer {
+        padding: 20px;
+      }
+
+      .reader-message h3 {
+        font-size: 18px;
+      }
+
+      .reader-message p {
+        font-size: 11px;
+      }
+
+      .reader-footer {
+        padding: 0 10px;
+      }
+
+      .reader-status {
+        max-width: 65%;
+      }
+
+      .site-footer {
+        align-items: flex-start;
+        flex-direction: column;
+        font-size: 10px;
+      }
+    }
+
+    @media (max-width: 390px) {
+      .brand-name {
+        max-width: 128px;
+      }
+
+      .hero-title {
+        font-size: 48px;
+      }
+
+      .reader-toolbar {
+        padding: 0 4px;
+      }
+
+      .page-control {
+        min-width: 78px;
+      }
+
+      .icon-button {
+        width: 36px;
+      }
+    }
+
+    @media (max-height: 620px) and (orientation: landscape) {
+      .hero {
+        min-height: 480px;
+      }
+
+      .reader-shell {
+        height: calc(100svh - 16px);
+        min-height: 420px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Northernmost 首页">
+      <span class="brand-mark">N</span>
+      <span class="brand-name">Northernmost</span>
+    </a>
+
+    <div class="header-actions">
+      <button
+        class="command-button"
+        id="headerReadButton"
+        type="button"
+        aria-label="进入阅读器"
+      >
+        <i class="icon" data-lucide="book-open"></i>
+        <span>Read</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="top">
+      <div class="hero-content">
+        <div class="hero-index">69° N · Volume 01</div>
+
+        <h1 class="hero-title">
+          Northernmost
+          <span>极北</span>
+        </h1>
+
+        <div class="author">Nob0dyH3re</div>
+
+        <div class="hero-actions">
+          <button class="primary-action" id="heroReadButton" type="button">
+            <i class="icon" data-lucide="book-open"></i>
+            <span>Enter the story</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-coordinates">
+        69° 38' 14" N&nbsp;&nbsp;18° 57' 11" E
+      </div>
+    </section>
+
+    <section class="reader-section" id="reader">
+      <div class="reader-heading">
+        <div>
+          <p>The manuscript</p>
+          <h2>Northernmost</h2>
+        </div>
+
+        <div class="reader-location">
+          69° 38' 14" N<br />
+          POLAR NIGHT
+        </div>
+      </div>
+
+      <div class="reader-shell" id="readerShell">
+        <div class="reader-toolbar">
+          <div class="toolbar-group">
+            <button
+              class="icon-button"
+              id="previousPageButton"
+              type="button"
+              title="上一页"
+              aria-label="上一页"
+              disabled
+            >
+              <i class="icon" data-lucide="chevron-left"></i>
+            </button>
+
+            <div class="page-control">
+              <input
+                class="page-input"
+                id="pageInput"
+                type="number"
+                min="1"
+                value="1"
+                inputmode="numeric"
+                aria-label="当前页码"
+                disabled
+              />
+              <span>/</span>
+              <span id="pageCount">—</span>
+            </div>
+
+            <button
+              class="icon-button"
+              id="nextPageButton"
+              type="button"
+              title="下一页"
+              aria-label="下一页"
+              disabled
+            >
+              <i class="icon" data-lucide="chevron-right"></i>
+            </button>
+
+            <span class="toolbar-separator"></span>
+            <span class="document-name" id="documentName">
+              nothernmost.pdf
+            </span>
+          </div>
+
+          <div class="toolbar-group center">
+            <button
+              class="icon-button"
+              id="zoomOutButton"
+              type="button"
+              title="缩小"
+              aria-label="缩小"
+              disabled
+            >
+              <i class="icon" data-lucide="zoom-out"></i>
+            </button>
+
+            <span class="zoom-label" id="zoomLabel">Fit</span>
+
+            <button
+              class="icon-button"
+              id="zoomInButton"
+              type="button"
+              title="放大"
+              aria-label="放大"
+              disabled
+            >
+              <i class="icon" data-lucide="zoom-in"></i>
+            </button>
+
+            <button
+              class="icon-button"
+              id="fitButton"
+              type="button"
+              title="适应宽度"
+              aria-label="适应宽度"
+              disabled
+            >
+              <i class="icon" data-lucide="scan"></i>
+            </button>
+          </div>
+
+          <div class="toolbar-group end">
+            <button
+              class="icon-button"
+              id="fullscreenButton"
+              type="button"
+              title="全屏阅读"
+              aria-label="全屏阅读"
+            >
+              <i class="icon" data-lucide="maximize"></i>
+            </button>
+
+            <button
+              class="icon-button"
+              id="openFileButton"
+              type="button"
+              title="打开 PDF"
+              aria-label="打开本地 PDF"
+            >
+              <i class="icon" data-lucide="folder-open"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="reader-body">
+          <div class="page-stage" id="pageStage">
+            <div class="canvas-wrap" id="canvasWrap">
+              <canvas id="pdfCanvas"></canvas>
+            </div>
+          </div>
+
+          <div class="reader-layer" id="loadingLayer">
+            <div class="reader-message">
+              <div class="loading-ring" aria-hidden="true"></div>
+              <h3 id="loadingTitle">Opening manuscript</h3>
+              <p id="loadingText">nothernmost.pdf</p>
+
+              <div class="progress-track" aria-hidden="true">
+                <div class="progress-value" id="progressValue"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="reader-layer" id="errorLayer" hidden>
+            <div class="reader-message">
+              <div class="error-symbol">
+                <i class="icon" data-lucide="file-warning"></i>
+              </div>
+
+              <h3>Unable to open the manuscript</h3>
+              <p id="errorText">The PDF could not be loaded.</p>
+
+              <div class="error-actions">
+                <button
+                  class="error-action primary"
+                  id="retryButton"
+                  type="button"
+                >
+                  <i class="icon" data-lucide="rotate-cw"></i>
+                  <span>Retry</span>
+                </button>
+
+                <button
+                  class="error-action"
+                  id="errorOpenFileButton"
+                  type="button"
+                >
+                  <i class="icon" data-lucide="folder-open"></i>
+                  <span>Open PDF</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="reader-footer">
+          <span class="reader-status" id="readerStatus">
+            Northernmost · Nob0dyH3re
+          </span>
+
+          <span class="reader-page-status" id="pageStatus">
+            — / —
+          </span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>Northernmost · Nob0dyH3re</span>
+
+    <span class="signal">
+      <span class="signal-dot"></span>
+      69° 38' 14" N
+    </span>
+  </footer>
+
+  <input
+    class="file-input"
+    id="pdfFileInput"
+    type="file"
+    accept="application/pdf,.pdf"
+  />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+
+  <script>
+    "use strict";
+
+    /*
+     * GitHub Pages 目录：
+     *
+     * Nothernmost/
+     * ├── index.html
+     * └── nothernmost.pdf
+     *
+     * 如后续改为后端地址，只需修改 pdfUrl。
+     */
+    const APP_CONFIG = Object.freeze({
+      pdfUrl: "./nothernmost.pdf",
+      pdfName: "nothernmost.pdf",
+      workerUrl:
+        "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js",
+      cMapUrl:
+        "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/cmaps/",
+      standardFontDataUrl:
+        "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/standard_fonts/",
+      minZoom: 0.65,
+      maxZoom: 3,
+      zoomStep: 0.15,
+      maxPixelRatio: 2
+    });
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc = APP_CONFIG.workerUrl;
+
+    const elements = {
+      readerSection: document.querySelector("#reader"),
+      readerShell: document.querySelector("#readerShell"),
+      pageStage: document.querySelector("#pageStage"),
+      canvasWrap: document.querySelector("#canvasWrap"),
+      canvas: document.querySelector("#pdfCanvas"),
+
+      loadingLayer: document.querySelector("#loadingLayer"),
+      loadingTitle: document.querySelector("#loadingTitle"),
+      loadingText: document.querySelector("#loadingText"),
+      progressValue: document.querySelector("#progressValue"),
+
+      errorLayer: document.querySelector("#errorLayer"),
+      errorText: document.querySelector("#errorText"),
+
+      pageInput: document.querySelector("#pageInput"),
+      pageCount: document.querySelector("#pageCount"),
+      pageStatus: document.querySelector("#pageStatus"),
+      documentName: document.querySelector("#documentName"),
+      readerStatus: document.querySelector("#readerStatus"),
+      zoomLabel: document.querySelector("#zoomLabel"),
+
+      previousPageButton: document.querySelector("#previousPageButton"),
+      nextPageButton: document.querySelector("#nextPageButton"),
+      zoomOutButton: document.querySelector("#zoomOutButton"),
+      zoomInButton: document.querySelector("#zoomInButton"),
+      fitButton: document.querySelector("#fitButton"),
+      fullscreenButton: document.querySelector("#fullscreenButton"),
+      openFileButton: document.querySelector("#openFileButton"),
+
+      retryButton: document.querySelector("#retryButton"),
+      errorOpenFileButton: document.querySelector("#errorOpenFileButton"),
+      pdfFileInput: document.querySelector("#pdfFileInput"),
+
+      headerReadButton: document.querySelector("#headerReadButton"),
+      heroReadButton: document.querySelector("#heroReadButton")
+    };
+
+    const readerState = {
+      document: null,
+      loadingTask: null,
+      renderTask: null,
+
+      pageNumber: 1,
+      pageCount: 0,
+
+      zoom: 1,
+      fitMode: true,
+
+      requestId: 0,
+      source: null,
+      sourceName: APP_CONFIG.pdfName,
+      retry: null,
+
+      resizeTimer: null,
+
+      pointerStartX: 0,
+      pointerStartY: 0,
+      pointerStartTime: 0
+    };
+
+    function refreshIcons() {
+      if (window.lucide) {
+        window.lucide.createIcons({
+          attrs: {
+            "stroke-width": 1.7
+          }
+        });
+      }
+    }
+
+    function normalizePdfUrl(value) {
+      const url = new URL(value, window.location.href);
+
+      if (url.hostname.toLowerCase() === "github.com") {
+        const match = url.pathname.match(
+          /^\/([^/]+)\/([^/]+)\/blob\/([^/]+)\/(.+)$/
+        );
+
+        if (match) {
+          const owner = match[1];
+          const repository = match[2];
+          const branch = match[3];
+          const filePath = match[4];
+
+          return [
+            "https://raw.githubusercontent.com",
+            encodeURIComponent(owner),
+            encodeURIComponent(repository),
+            encodeURIComponent(branch),
+            filePath
+              .split("/")
+              .map((part) => encodeURIComponent(part))
+              .join("/")
+          ].join("/");
+        }
+      }
+
+      return url.href;
+    }
+
+    function getPdfErrorMessage(error) {
+      if (error?.name === "PasswordException") {
+        return "The password was not accepted.";
+      }
+
+      if (error?.name === "InvalidPDFException") {
+        return "The selected file is not a valid PDF.";
+      }
+
+      if (error?.name === "MissingPDFException") {
+        return "The PDF was not found. Confirm that nothernmost.pdf is beside index.html.";
+      }
+
+      if (error?.name === "UnexpectedResponseException") {
+        return "The server returned a web page instead of a PDF file.";
+      }
+
+      if (window.location.protocol === "file:") {
+        return "Open this page through GitHub Pages or a local web server.";
+      }
+
+      return error?.message || "The PDF could not be loaded.";
+    }
+
+    function setLoading(visible, title, detail) {
+      elements.loadingLayer.hidden = !visible;
+
+      if (title) {
+        elements.loadingTitle.textContent = title;
+      }
+
+      if (detail) {
+        elements.loadingText.textContent = detail;
+      }
+
+      if (!visible) {
+        elements.progressValue.style.width = "0%";
+      }
+    }
+
+    function setProgress(loaded, total) {
+      if (!total || !Number.isFinite(total)) {
+        elements.progressValue.style.width = "18%";
+        elements.loadingText.textContent = "Receiving manuscript";
+        return;
+      }
+
+      const percentage = Math.max(
+        0,
+        Math.min(100, Math.round((loaded / total) * 100))
+      );
+
+      elements.progressValue.style.width = `${percentage}%`;
+      elements.loadingText.textContent = `${percentage}%`;
+    }
+
+    function showError(error) {
+      setLoading(false);
+      elements.errorText.textContent = getPdfErrorMessage(error);
+      elements.errorLayer.hidden = false;
+    }
+
+    function hideError() {
+      elements.errorLayer.hidden = true;
+    }
+
+    function setControlsEnabled(enabled) {
+      elements.pageInput.disabled = !enabled;
+      elements.zoomOutButton.disabled = !enabled;
+      elements.zoomInButton.disabled = !enabled;
+      elements.fitButton.disabled = !enabled;
+
+      updateNavigationButtons();
+    }
+
+    function updateNavigationButtons() {
+      const available = Boolean(readerState.document);
+
+      elements.previousPageButton.disabled =
+        !available || readerState.pageNumber <= 1;
+
+      elements.nextPageButton.disabled =
+        !available || readerState.pageNumber >= readerState.pageCount;
+    }
+
+    function updateReaderUI() {
+      elements.pageInput.value = String(readerState.pageNumber);
+      elements.pageInput.max = String(readerState.pageCount || 1);
+      elements.pageCount.textContent = readerState.pageCount || "—";
+
+      elements.pageStatus.textContent = readerState.pageCount
+        ? `${readerState.pageNumber} / ${readerState.pageCount}`
+        : "— / —";
+
+      elements.documentName.textContent = readerState.sourceName;
+
+      elements.zoomLabel.textContent = readerState.fitMode
+        ? "Fit"
+        : `${Math.round(readerState.zoom * 100)}%`;
+
+      updateNavigationButtons();
+    }
+
+    async function disposeDocument() {
+      if (readerState.renderTask) {
+        try {
+          readerState.renderTask.cancel();
+          await readerState.renderTask.promise;
+        } catch (error) {
+          if (error?.name !== "RenderingCancelledException") {
+            console.debug(error);
+          }
+        }
+
+        readerState.renderTask = null;
+      }
+
+      if (readerState.document) {
+        try {
+          await readerState.document.destroy();
+        } catch (error) {
+          console.debug("PDF document already closed.", error);
+        }
+
+        readerState.document = null;
+      } else if (readerState.loadingTask) {
+        try {
+          await readerState.loadingTask.destroy();
+        } catch (error) {
+          console.debug("PDF loading task already closed.", error);
+        }
+      }
+
+      readerState.loadingTask = null;
+      readerState.pageCount = 0;
+      readerState.pageNumber = 1;
+
+      const context = elements.canvas.getContext("2d");
+      context.clearRect(
+        0,
+        0,
+        elements.canvas.width,
+        elements.canvas.height
+      );
+
+      elements.canvas.width = 1;
+      elements.canvas.height = 1;
+      elements.canvas.style.width = "1px";
+      elements.canvas.style.height = "1px";
+
+      updateReaderUI();
+    }
+
+    function createDocumentOptions(source) {
+      const sharedOptions = {
+        cMapUrl: APP_CONFIG.cMapUrl,
+        cMapPacked: true,
+        standardFontDataUrl: APP_CONFIG.standardFontDataUrl,
+        useWorkerFetch: true,
+        isEvalSupported: true
+      };
+
+      if (
+        source instanceof ArrayBuffer ||
+        ArrayBuffer.isView(source)
+      ) {
+        const data =
+          source instanceof Uint8Array
+            ? source
+            : new Uint8Array(source);
+
+        return {
+          ...sharedOptions,
+          data
+        };
+      }
+
+      return {
+        ...sharedOptions,
+        url: normalizePdfUrl(source),
+        withCredentials: false
+      };
+    }
+
+    async function loadPdf(source, options = {}) {
+      const requestId = ++readerState.requestId;
+
+      readerState.source = source;
+      readerState.sourceName =
+        options.name || APP_CONFIG.pdfName;
+      readerState.retry =
+        options.retry || (() => loadPdf(source, options));
+
+      hideError();
+      setControlsEnabled(false);
+      setLoading(
+        true,
+        "Opening manuscript",
+        readerState.sourceName
+      );
+
+      await disposeDocument();
+
+      try {
+        const loadingTask = pdfjsLib.getDocument(
+          createDocumentOptions(source)
+        );
+
+        readerState.loadingTask = loadingTask;
+
+        loadingTask.onProgress = ({ loaded, total }) => {
+          if (requestId !== readerState.requestId) {
+            return;
+          }
+
+          setProgress(loaded, total);
+        };
+
+        loadingTask.onPassword = (setPassword, reason) => {
+          const message =
+            reason === 2
+              ? "Incorrect password. Try again:"
+              : "Enter the PDF password:";
+
+          const password = window.prompt(message);
+
+          if (password === null) {
+            loadingTask.destroy();
+            return;
+          }
+
+          setPassword(password);
+        };
+
+        const documentInstance = await loadingTask.promise;
+
+        if (requestId !== readerState.requestId) {
+          await documentInstance.destroy();
+          return;
+        }
+
+        readerState.document = documentInstance;
+        readerState.loadingTask = null;
+        readerState.pageNumber = 1;
+        readerState.pageCount = documentInstance.numPages;
+        readerState.zoom = 1;
+        readerState.fitMode = true;
+
+        elements.readerStatus.textContent =
+          `Northernmost · ${readerState.pageCount} pages`;
+
+        updateReaderUI();
+        setControlsEnabled(true);
+
+        await renderCurrentPage();
+
+        if (requestId === readerState.requestId) {
+          setLoading(false);
+        }
+      } catch (error) {
+        if (
+          requestId !== readerState.requestId ||
+          error?.name === "AbortException"
+        ) {
+          return;
+        }
+
+        console.error("PDF loading failed:", error);
+
+        readerState.document = null;
+        readerState.loadingTask = null;
+        setControlsEnabled(false);
+        showError(error);
+      }
+    }
+
+    function getRenderScale(page) {
+      const unscaledViewport = page.getViewport({ scale: 1 });
+
+      const horizontalPadding =
+        window.innerWidth <= 700 ? 20 : 64;
+
+      const availableWidth = Math.max(
+        240,
+        elements.pageStage.clientWidth - horizontalPadding
+      );
+
+      const fitScale = availableWidth / unscaledViewport.width;
+
+      return readerState.fitMode
+        ? fitScale
+        : fitScale * readerState.zoom;
+    }
+
+    async function renderCurrentPage() {
+      if (!readerState.document) {
+        return;
+      }
+
+      const renderRequestId = readerState.requestId;
+      const requestedPageNumber = readerState.pageNumber;
+
+      if (readerState.renderTask) {
+        try {
+          readerState.renderTask.cancel();
+          await readerState.renderTask.promise;
+        } catch (error) {
+          if (error?.name !== "RenderingCancelledException") {
+            console.debug(error);
+          }
+        }
+
+        readerState.renderTask = null;
+      }
+
+      setLoading(
+        true,
+        `Page ${requestedPageNumber}`,
+        readerState.sourceName
+      );
+
+      try {
+        const page = await readerState.document.getPage(
+          requestedPageNumber
+        );
+
+        if (
+          renderRequestId !== readerState.requestId ||
+          requestedPageNumber !== readerState.pageNumber
+        ) {
+          return;
+        }
+
+        const scale = getRenderScale(page);
+        const viewport = page.getViewport({ scale });
+
+        const pixelRatio = Math.min(
+          window.devicePixelRatio || 1,
+          APP_CONFIG.maxPixelRatio
+        );
+
+        const canvas = elements.canvas;
+        const context = canvas.getContext("2d", {
+          alpha: false,
+          desynchronized: true
+        });
+
+        canvas.width = Math.max(
+          1,
+          Math.floor(viewport.width * pixelRatio)
+        );
+
+        canvas.height = Math.max(
+          1,
+          Math.floor(viewport.height * pixelRatio)
+        );
+
+        canvas.style.width = `${Math.floor(viewport.width)}px`;
+        canvas.style.height = `${Math.floor(viewport.height)}px`;
+
+        elements.canvasWrap.style.width =
+          `${Math.floor(viewport.width)}px`;
+
+        elements.canvasWrap.style.height =
+          `${Math.floor(viewport.height)}px`;
+
+        context.setTransform(1, 0, 0, 1, 0, 0);
+        context.fillStyle = "#ffffff";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+
+        readerState.renderTask = page.render({
+          canvasContext: context,
+          viewport,
+          transform:
+            pixelRatio === 1
+              ? null
+              : [pixelRatio, 0, 0, pixelRatio, 0, 0],
+          background: "#ffffff"
+        });
+
+        await readerState.renderTask.promise;
+        readerState.renderTask = null;
+
+        if (
+          renderRequestId !== readerState.requestId ||
+          requestedPageNumber !== readerState.pageNumber
+        ) {
+          return;
+        }
+
+        elements.pageStage.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: "instant"
+        });
+
+        updateReaderUI();
+        setLoading(false);
+      } catch (error) {
+        if (error?.name === "RenderingCancelledException") {
+          return;
+        }
+
+        console.error("PDF rendering failed:", error);
+        showError(error);
+      }
+    }
+
+    async function goToPage(pageNumber) {
+      if (!readerState.document) {
+        return;
+      }
+
+      const target = Math.max(
+        1,
+        Math.min(
+          readerState.pageCount,
+          Math.floor(Number(pageNumber) || 1)
+        )
+      );
+
+      if (target === readerState.pageNumber) {
+        updateReaderUI();
+        return;
+      }
+
+      readerState.pageNumber = target;
+      updateReaderUI();
+      await renderCurrentPage();
+    }
+
+    function previousPage() {
+      goToPage(readerState.pageNumber - 1);
+    }
+
+    function nextPage() {
+      goToPage(readerState.pageNumber + 1);
+    }
+
+    function changeZoom(delta) {
+      if (!readerState.document) {
+        return;
+      }
+
+      readerState.fitMode = false;
+      readerState.zoom = Math.max(
+        APP_CONFIG.minZoom,
+        Math.min(
+          APP_CONFIG.maxZoom,
+          Number((readerState.zoom + delta).toFixed(2))
+        )
+      );
+
+      updateReaderUI();
+      renderCurrentPage();
+    }
+
+    function fitPage() {
+      if (!readerState.document) {
+        return;
+      }
+
+      readerState.fitMode = true;
+      readerState.zoom = 1;
+
+      updateReaderUI();
+      renderCurrentPage();
+    }
+
+    function openFilePicker() {
+      elements.pdfFileInput.click();
+    }
+
+    async function loadLocalFile(file) {
+      if (!file) {
+        return;
+      }
+
+      const isPdf =
+        file.type === "application/pdf" ||
+        file.name.toLowerCase().endsWith(".pdf");
+
+      if (!isPdf) {
+        showError({
+          name: "InvalidPDFException"
+        });
+        return;
+      }
+
+      const retry = async () => {
+        const freshBuffer = await file.arrayBuffer();
+
+        return loadPdf(freshBuffer, {
+          name: file.name,
+          retry
+        });
+      };
+
+      const buffer = await file.arrayBuffer();
+
+      await loadPdf(buffer, {
+        name: file.name,
+        retry
+      });
+    }
+
+    async function toggleFullscreen() {
+      try {
+        if (!document.fullscreenElement) {
+          await elements.readerShell.requestFullscreen();
+        } else {
+          await document.exitFullscreen();
+        }
+      } catch (error) {
+        console.warn("Fullscreen is unavailable.", error);
+      }
+    }
+
+    function updateFullscreenButton() {
+      const isFullscreen =
+        document.fullscreenElement === elements.readerShell;
+
+      elements.fullscreenButton.innerHTML = isFullscreen
+        ? '<i class="icon" data-lucide="minimize"></i>'
+        : '<i class="icon" data-lucide="maximize"></i>';
+
+      elements.fullscreenButton.title = isFullscreen
+        ? "退出全屏"
+        : "全屏阅读";
+
+      elements.fullscreenButton.setAttribute(
+        "aria-label",
+        isFullscreen ? "退出全屏" : "全屏阅读"
+      );
+
+      document.body.classList.toggle(
+        "reader-locked",
+        isFullscreen
+      );
+
+      refreshIcons();
+
+      window.setTimeout(() => {
+        if (readerState.document && readerState.fitMode) {
+          renderCurrentPage();
+        }
+      }, 120);
+    }
+
+    function scrollToReader() {
+      elements.readerSection.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+
+    function isReaderVisible() {
+      const rect = elements.readerShell.getBoundingClientRect();
+
+      return (
+        rect.bottom > 0 &&
+        rect.top < window.innerHeight
+      );
+    }
+
+    elements.headerReadButton.addEventListener(
+      "click",
+      scrollToReader
+    );
+
+    elements.heroReadButton.addEventListener(
+      "click",
+      scrollToReader
+    );
+
+    elements.previousPageButton.addEventListener(
+      "click",
+      previousPage
+    );
+
+    elements.nextPageButton.addEventListener(
+      "click",
+      nextPage
+    );
+
+    elements.zoomOutButton.addEventListener(
+      "click",
+      () => changeZoom(-APP_CONFIG.zoomStep)
+    );
+
+    elements.zoomInButton.addEventListener(
+      "click",
+      () => changeZoom(APP_CONFIG.zoomStep)
+    );
+
+    elements.fitButton.addEventListener(
+      "click",
+      fitPage
+    );
+
+    elements.fullscreenButton.addEventListener(
+      "click",
+      toggleFullscreen
+    );
+
+    elements.openFileButton.addEventListener(
+      "click",
+      openFilePicker
+    );
+
+    elements.errorOpenFileButton.addEventListener(
+      "click",
+      openFilePicker
+    );
+
+    elements.retryButton.addEventListener(
+      "click",
+      () => {
+        if (typeof readerState.retry === "function") {
+          readerState.retry();
+        }
+      }
+    );
+
+    elements.pageInput.addEventListener("change", () => {
+      goToPage(elements.pageInput.value);
+    });
+
+    elements.pageInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        elements.pageInput.blur();
+        goToPage(elements.pageInput.value);
+      }
+    });
+
+    elements.pdfFileInput.addEventListener(
+      "change",
+      async (event) => {
+        const file = event.target.files?.[0];
+        event.target.value = "";
+
+        if (file) {
+          await loadLocalFile(file);
+        }
+      }
+    );
+
+    document.addEventListener(
+      "fullscreenchange",
+      updateFullscreenButton
+    );
+
+    document.addEventListener("keydown", (event) => {
+      if (
+        !readerState.document ||
+        !isReaderVisible() ||
+        event.altKey ||
+        event.metaKey ||
+        event.ctrlKey
+      ) {
+        return;
+      }
+
+      const activeTag = document.activeElement?.tagName;
+
+      if (
+        activeTag === "INPUT" ||
+        activeTag === "TEXTAREA" ||
+        activeTag === "SELECT"
+      ) {
+        return;
+      }
+
+      if (
+        event.key === "ArrowRight" ||
+        event.key === "PageDown"
+      ) {
+        event.preventDefault();
+        nextPage();
+      }
+
+      if (
+        event.key === "ArrowLeft" ||
+        event.key === "PageUp"
+      ) {
+        event.preventDefault();
+        previousPage();
+      }
+
+      if (event.key === "+" || event.key === "=") {
+        event.preventDefault();
+        changeZoom(APP_CONFIG.zoomStep);
+      }
+
+      if (event.key === "-" || event.key === "_") {
+        event.preventDefault();
+        changeZoom(-APP_CONFIG.zoomStep);
+      }
+
+      if (event.key === "0") {
+        event.preventDefault();
+        fitPage();
+      }
+    });
+
+    elements.pageStage.addEventListener(
+      "pointerdown",
+      (event) => {
+        readerState.pointerStartX = event.clientX;
+        readerState.pointerStartY = event.clientY;
+        readerState.pointerStartTime = performance.now();
+      },
+      { passive: true }
+    );
+
+    elements.pageStage.addEventListener(
+      "pointerup",
+      (event) => {
+        if (
+          !readerState.document ||
+          !readerState.fitMode ||
+          event.pointerType === "mouse"
+        ) {
+          return;
+        }
+
+        const deltaX =
+          event.clientX - readerState.pointerStartX;
+
+        const deltaY =
+          event.clientY - readerState.pointerStartY;
+
+        const elapsed =
+          performance.now() - readerState.pointerStartTime;
+
+        const isHorizontalSwipe =
+          Math.abs(deltaX) >= 56 &&
+          Math.abs(deltaY) <= 72 &&
+          Math.abs(deltaX) > Math.abs(deltaY) * 1.15 &&
+          elapsed < 700;
+
+        if (!isHorizontalSwipe) {
+          return;
+        }
+
+        if (deltaX < 0) {
+          nextPage();
+        } else {
+          previousPage();
+        }
+      },
+      { passive: true }
+    );
+
+    const resizeObserver = new ResizeObserver(() => {
+      if (!readerState.document || !readerState.fitMode) {
+        return;
+      }
+
+      window.clearTimeout(readerState.resizeTimer);
+
+      readerState.resizeTimer = window.setTimeout(() => {
+        renderCurrentPage();
+      }, 180);
+    });
+
+    resizeObserver.observe(elements.pageStage);
+
+    window.addEventListener("beforeunload", () => {
+      readerState.requestId += 1;
+
+      if (readerState.renderTask) {
+        readerState.renderTask.cancel();
+      }
+
+      if (readerState.document) {
+        readerState.document.destroy();
+      } else if (readerState.loadingTask) {
+        readerState.loadingTask.destroy();
+      }
+    });
+
+    function getInitialPdfUrl() {
+      const queryValue =
+        new URLSearchParams(window.location.search).get("pdf");
+
+      return normalizePdfUrl(
+        queryValue || APP_CONFIG.pdfUrl
+      );
+    }
+
+    refreshIcons();
+
+    loadPdf(getInitialPdfUrl(), {
+      name: APP_CONFIG.pdfName
+    });
+  </script>
+</body>
+</html>
